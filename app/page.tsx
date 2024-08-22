@@ -1,15 +1,22 @@
-//@ts-nocheck
 "use client";
 
 import TodoForm from "../component/TodoForm";
 import TodoList from "../component/TodoList";
 import { useState } from "react";
 
-export default function Home() {
-  const [todos, setTodos] = useState();
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
 
-  const addTodo = (text) => {
-    const newTodo = {
+export default function Home() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  // Add a new todo
+  const addTodo = (text: string) => {
+    if (text.trim().length === 0) return; // Prevent adding empty todos
+    const newTodo: Todo = {
       id: Math.random(),
       text,
       completed: false,
@@ -17,7 +24,8 @@ export default function Home() {
     setTodos([...todos, newTodo]);
   };
 
-  const toggleComplete = (id) => {
+  // Toggle completion status of a todo
+  const toggleComplete = (id: number) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -25,19 +33,24 @@ export default function Home() {
     );
   };
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id != id));
+  // Delete a todo
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
-    <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold mb-6">Todo List</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Todo List</h1>
       <TodoForm onAddTodo={addTodo} />
-      <TodoList
-        todos={todos}
-        onToggleComplete={toggleComplete}
-        onDelete={deleteTodo}
-      />
+      {todos.length > 0 ? (
+        <TodoList
+          todos={todos}
+          onToggleComplete={toggleComplete}
+          onDelete={deleteTodo}
+        />
+      ) : (
+        <p>No todos yet. Add one above!</p>
+      )}
     </div>
   );
 }
