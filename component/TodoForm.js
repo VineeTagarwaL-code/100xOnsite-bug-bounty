@@ -5,9 +5,12 @@ const TodoForm = ({ onAddTodo }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newTodo !== "") {
-      onAddTodo(newTodo);
+    const trimmedTodo = newTodo.trim();
+    if (trimmedTodo !== "") {
+      onAddTodo(trimmedTodo);
       setNewTodo("");
+    } else {
+      alert("please enter text in todo");
     }
   };
 
@@ -29,4 +32,5 @@ const TodoForm = ({ onAddTodo }) => {
     </form>
   );
 };
+
 export default TodoForm;

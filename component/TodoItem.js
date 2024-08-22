@@ -1,26 +1,29 @@
 import React from "react";
 
 const TodoItem = ({ todo, onToggleComplete, onDelete }) => {
+  const handleToggleComplete = () => onToggleComplete(todo.id);
+  const handleDelete = () => onDelete(todo.id);
+
   return (
-    <div className="flex items-center justify-between p-4 border rounded-md shadow-sm bg-gray-100">
+    <div className="flex items-center justify-between p-4 border rounded-md shadow-md bg-white hover:bg-gray-50 transition-all duration-200 ease-in-out">
       <div className="flex items-center">
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={() => onToggleComplete(todo.id)}
-          className="mr-2 w-4 h-4 rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onChange={handleToggleComplete}
+          className="mr-3 w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
         />
         <label
-          className={`${
-            todo.completed ? "line-through text-gray-500" : "text-gray-800"
+          className={`text-lg ${
+            todo.completed ? "line-through text-gray-400" : "text-gray-900"
           }`}
         >
           {todo.text}
         </label>
       </div>
       <button
-        onClick={() => onDelete(todo.id)}
-        className="text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+        onClick={handleDelete}
+        className="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 ease-in-out"
       >
         Delete
       </button>
