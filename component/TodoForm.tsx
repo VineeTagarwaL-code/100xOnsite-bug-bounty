@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent, ChangeEvent } from 'react'
 
-const TodoForm = ({ onAddTodo }) => {
-  const [newTodo, setNewTodo] = useState("");
+interface TodoFormProps {
+  onAddTodo: (todo: string) => void
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newTodo !== "") {
-      onAddTodo(newTodo);
-      setNewTodo("");
+const TodoForm: React.FC<TodoFormProps> = ({ onAddTodo }) => {
+  const [newTodo, setNewTodo] = useState<string>('')
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (newTodo !== '') {
+      onAddTodo(newTodo)
+      setNewTodo('')
     }
-  };
+  }
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTodo(e.target.value)
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full mt-4">
       <input
         type="text"
         value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        onChange={handleChange}
         placeholder="Add a new todo"
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-2"
       />
@@ -27,6 +35,7 @@ const TodoForm = ({ onAddTodo }) => {
         Add
       </button>
     </form>
-  );
-};
-export default TodoForm;
+  )
+}
+
+export default TodoForm
