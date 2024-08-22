@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 
 import TodoForm from "../component/TodoForm";
@@ -6,9 +5,9 @@ import TodoList from "../component/TodoList";
 import { useState } from "react";
 
 export default function Home() {
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState<{ id: number; text: string; completed: boolean; }[]>([]);
 
-  const addTodo = (text) => {
+  const addTodo = (text:string) => {
     const newTodo = {
       id: Math.random(),
       text,
@@ -17,7 +16,7 @@ export default function Home() {
     setTodos([...todos, newTodo]);
   };
 
-  const toggleComplete = (id) => {
+  const toggleComplete = (id: number) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -25,13 +24,13 @@ export default function Home() {
     );
   };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id != id));
   };
 
   return (
-    <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold mb-6">Todo List</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Todo List</h1>
       <TodoForm onAddTodo={addTodo} />
       <TodoList
         todos={todos}
